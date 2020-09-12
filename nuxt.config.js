@@ -1,4 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
+import i18n from './i18n/index'
+import camaradioSocket from './socket/camaradio'
 
 export default {
   /*
@@ -37,7 +39,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: [],
+  plugins: ['~/plugins/pizzly.js'],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -53,8 +55,15 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'nuxt-socket-io',
+    i18n
+
   ],
+  io: {
+    // module options
+    sockets: [camaradioSocket]
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
