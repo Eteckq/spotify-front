@@ -4,7 +4,7 @@
 
     <h2>Bouton menu</h2>
 
-    <h2>Liste des ùusiques</h2>
+    <h2>Liste des musiques</h2>
   </div>
 </template>
 

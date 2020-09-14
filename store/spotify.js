@@ -1,4 +1,5 @@
-import axios from 'axios'
+import { resolve } from 'path'
+import querystring from 'querystring'
 
 export const state = () => ({
   pizzly: null,
@@ -10,36 +11,52 @@ export const getters = {}
 
 export const actions = {
   login ({ commit, state }) {
-    // commit('login')
-    return state.pizzly
-      .connect()
+    return new Promise((resolve, reject) => {
+      state.pizzly
+        .connect()
+        .then((data) => {
+          const authId = data.authId
+          state.pizzly
+            .auth(authId)
+            .get('me')
+            .then(response => response.json())
+            .then((data) => { console.log(data); resolve({ authId, name: data.display_name }) })
+            .catch(reject)
+        })
+    })
   },
   restoreSession ({ commit, state }, { authId }) {
-    // commit('restoreSession', { authId })
     return state.pizzly
       .auth(authId)
-      .connect()
+      .get('/me')
+      .then(response => response.json())
+      .then(data => data.display_name)
+
+    // return state.pizzly
+    //   .auth(authId)
+    //   .connect()
   },
   getMe ({ commit, state }) {
     return state.pizzly
-      .auth(state.authId)
       .get('/me')
-      .then((data) => {
-        console.log(data)
-      })
+      .then(response => response.json())
+  },
+  // this.$store.dispatch('spotify/getTracksFromSearch', { query: 'nf ' }).then((tracks) => {
+  //   console.log(tracks)
+  // })
+  getTracksFromSearch ({ commit, state }, { query }) {
+    return state.pizzly
+      .auth(state.authId)
+      .get('/search?' + querystring.stringify({
+        q: query,
+        type: 'track'
+      }))
+      .then(response => response.json())
+      .then(data => data.tracks.items)
   }
 }
 
 export const mutations = {
-  login (state, data) {
-    state.pizzly
-      .connect()
-  },
-  restoreSession (state, { authId }) {
-    state.pizzly
-      .auth(authId)
-      .connect()
-  },
   initPizzly (state, data) {
     const savedIds = localStorage.getItem('savedAuthIds')
 
@@ -57,8 +74,8 @@ export const mutations = {
 
     state.pizzly = data.pizzly
   },
-  setAuthId (state, { authId }) {
-    addIdInStorage({ authId, name: 'yoyo' }, state.savedAuthIds.map(id => id))
+  setAuthId (state, { authId, name }) {
+    addIdInStorage({ authId, name }, state.savedAuthIds.map(id => id))
     state.authId = authId
   }
 }

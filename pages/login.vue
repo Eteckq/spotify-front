@@ -1,6 +1,5 @@
 <template>
   <v-main>
-    <script src="https://cdn.jsdelivr.net/npm/pizzly-js@v0.2.7/dist/index.umd.min.js" />
     <v-card
       class="ma-auto mx-sm-13 text-center"
       :loading="loading"
@@ -51,45 +50,31 @@ export default {
   },
   mounted () {
     // eslint-disable-next-line no-undef
-    const pizzly = new Pizzly({ host: 'https://camaradio-auth.herokuapp.com', publishableKey: 'publish' })
+    const pizzly = new Pizzly({ host: 'https://camaradio-auth.herokuapp.com', publishableKey: 'publish' }).integration('spotify')
 
-    this.$store.commit('spotify/initPizzly', { pizzly: pizzly.integration('spotify') })
+    this.$store.commit('spotify/initPizzly', { pizzly })
 
-    // this.savedAuthIds = this.$store.state.spotify.savedAuthIds
+    this.savedAuthIds = this.$store.state.spotify.savedAuthIds
   },
   methods: {
     spotifyConnection () {
       this.loading = true
 
-      // this.pizzly
-      //   .auth('f38248b0-f680-11ea-8d7c-4bded2f791d5')
-      //   .connect()
-
-      // this.pizzly
-      //   .auth('f38248b0-f680-11ea-8d7c-4bded2f791d5')
-      //   .get('/me')
-      //   .then((data) => {
-      //     console.log(data)
-      //   })
-
       this.$store.dispatch('spotify/login')
-        .then(this.connectSuccess)
-        .catch(this.connectError)
-    },
-    restoreSpotifySession (id) {
-      this.$store.dispatch('spotify/restoreSession', { authId: id })
-        .then(this.connectSuccess)
-        .catch(this.connectError)
-    },
-    connectSuccess (data) {
-      // On success, we update the user object
-      const authId = data.authId
-      console.log(authId)
+        .then(({ authId, name }) => {
+          this.$store.commit('spotify/setAuthId', { authId, name })
 
-      this.$store.dispatch('spotify/getMe').then((data) => {
-        console.log(data)
-        this.$store.commit('spotify/setAuthId', { authId })
-      })
+          this.$router.push('/playlist')
+        })
+        .catch(this.connectError)
+    },
+    restoreSpotifySession (authId) {
+      this.$store.dispatch('spotify/restoreSession', { authId })
+        .then((name) => {
+          this.$store.commit('spotify/setAuthId', { authId, name })
+          this.$router.push('/playlist')
+        })
+        .catch(this.connectError)
     },
     connectError (err) {
       this.loading = false

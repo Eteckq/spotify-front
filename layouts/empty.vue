@@ -1,5 +1,6 @@
 <template>
   <v-app dark>
+    <script src="https://cdn.jsdelivr.net/npm/pizzly-js@v0.2.7/dist/index.umd.min.js" />
     <v-container class="fill-height">
       <nuxt />
     </v-container>

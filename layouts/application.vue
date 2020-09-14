@@ -11,3 +11,13 @@
     </v-footer>
   </v-app>
 </template>
+
+<script>
+export default {
+  created () {
+    if (this.$store.state.spotify.authId === null) {
+      this.$router.push('/login')
+    }
+  }
+}
+</script>
