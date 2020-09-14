@@ -12,24 +12,25 @@
               {{ $t("CONNECT_WITH_SPOTIFY") }}
             </v-btn>
 
-            <v-btn class="my-2" :disabled="loading" @click="annonymousConnection">
+            <!-- <v-btn class="my-2" :disabled="loading" @click="annonymousConnection">
               {{ $t("CONNECT_WITHOUT_SPOTIFY") }}
-            </v-btn>
+            </v-btn> -->
           </div>
         </div>
       </v-card-text>
     </v-card>
 
     <v-card v-if="savedAuthIds && savedAuthIds.length > 0" class="ma-sm-13">
-      <p v-for="(id, index) in savedAuthIds" :key="index">
-        {{ id }}
+      Saved session
+      <p v-for="(id, index) in savedAuthIds" :key="index" @click="restoreSpotifySession(id.authId)">
+        {{ id.name }}
       </p>
     </v-card>
   </v-main>
 </template>
 
 <script>
-// import Pizzly from 'pizzly-js'
+
 export default {
   layout: 'empty',
   data () {
@@ -43,57 +44,52 @@ export default {
       savedAuthIds: null
     }
   },
+  watch: {
+  },
   created () {
     this.state = this.stateList.WAIT_SPOTIFY
   },
   mounted () {
-    this.$pizzly = new Pizzly({ host: 'https://camaradio-auth.herokuapp.com', publishableKey: 'publish' }).integration('spotify')
-    const savedIds = localStorage.getItem('savedAuthIds')
+    // eslint-disable-next-line no-undef
+    const pizzly = new Pizzly({ host: 'https://camaradio-auth.herokuapp.com', publishableKey: 'publish' })
 
-    if (savedIds !== null) {
-      this.savedAuthIds = JSON.parse(savedIds)
-      if (this.savedAuthIds === null) {
-        this.savedAuthIds = []
-      }
-    } else {
-      this.savedAuthIds = []
-    }
+    this.$store.commit('spotify/initPizzly', { pizzly: pizzly.integration('spotify') })
+
+    // this.savedAuthIds = this.$store.state.spotify.savedAuthIds
   },
   methods: {
     spotifyConnection () {
       this.loading = true
 
-      this.$pizzly
-        .auth(localStorage.getItem('authId'))
-        .connect()
+      // this.pizzly
+      //   .auth('f38248b0-f680-11ea-8d7c-4bded2f791d5')
+      //   .connect()
+
+      // this.pizzly
+      //   .auth('f38248b0-f680-11ea-8d7c-4bded2f791d5')
+      //   .get('/me')
+      //   .then((data) => {
+      //     console.log(data)
+      //   })
+
+      this.$store.dispatch('spotify/login')
         .then(this.connectSuccess)
         .catch(this.connectError)
     },
-    annonymousConnection () {
-
-    },
-    serverSocketConnected () {
-
-    },
-    addIdInStorage (authId) {
-      this.savedAuthIds.push(authId)
-      this.savedAuthIds = [...new Set(this.savedAuthIds)]
-
-      localStorage.setItem('savedAuthIds', JSON.stringify(this.savedAuthIds))
-      localStorage.setItem('authId', authId)
+    restoreSpotifySession (id) {
+      this.$store.dispatch('spotify/restoreSession', { authId: id })
+        .then(this.connectSuccess)
+        .catch(this.connectError)
     },
     connectSuccess (data) {
       // On success, we update the user object
       const authId = data.authId
+      console.log(authId)
 
-      this.addIdInStorage(authId)
-
-      this.$pizzly
-        .auth(authId)
-        .get('/me')
-        .then(response => response.json())
-        .then(data => console.log(data)) // do something with the JSON payload (aka data)
-        .catch(console.error)
+      this.$store.dispatch('spotify/getMe').then((data) => {
+        console.log(data)
+        this.$store.commit('spotify/setAuthId', { authId })
+      })
     },
     connectError (err) {
       this.loading = false
