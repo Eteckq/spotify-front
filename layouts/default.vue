@@ -15,7 +15,9 @@ export default {
   },
 
   beforeMount () {
-    this.$store.commit('spotify/initPizzly')
+    if (!this.$store.state.spotify.pizzly) {
+      this.$store.commit('spotify/initPizzly')
+    }
   }
 
 }

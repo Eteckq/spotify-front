@@ -57,9 +57,6 @@ export default {
         })
         .catch(this.connectError)
     },
-    /*     annonymousConnection () {
-      this.$store.dispatch('spotify/annonymousLogin')
-    }, */
     restoreSpotifySession (authId) {
       this.$store.dispatch('spotify/restoreSession', { authId })
         .then((name) => {
