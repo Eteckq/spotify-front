@@ -1,4 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
 import i18n from './i18n/index'
 import camaradioSocket from './socket/camaradio'
 
@@ -79,13 +78,13 @@ export default {
       dark: true,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+          primary: '#000000',
+          accent: '#000000',
+          secondary: '#000000',
+          info: '#000000',
+          warning: '#000000',
+          error: '#000000',
+          success: '#000000'
         }
       }
     }
