@@ -1,55 +1,48 @@
 <template>
   <v-main>
-    <v-card
-      class="ma-auto mx-sm-13 text-center"
-      :loading="loading"
-    >
-      <v-card-text>
-        <div class="ma-auto">
-          <div v-if="state == stateList.WAIT_SPOTIFY">
-            <v-btn x-large class="my-2" :disabled="loading" @click="spotifyConnection">
-              {{ $t("CONNECT_WITH_SPOTIFY") }}
-            </v-btn>
+    <div class="ma-auto mx-sm-13 text-center">
+      <v-btn color="#1DB954" x-large class="my-2" :disabled="loading" @click="spotifyConnection">
+        {{ $t("CONNECT_WITH_SPOTIFY") }}
+      </v-btn>
+    </div>
 
-            <!-- <v-btn class="my-2" :disabled="loading" @click="annonymousConnection">
-              {{ $t("CONNECT_WITHOUT_SPOTIFY") }}
-            </v-btn> -->
-          </div>
-        </div>
-      </v-card-text>
-    </v-card>
-
-    <v-card v-if="savedAuthIds && savedAuthIds.length > 0" class="ma-sm-13">
-      Saved session
-      <p v-for="(id, index) in savedAuthIds" :key="index" @click="restoreSpotifySession(id.authId)">
-        {{ id.name }}
-      </p>
+    <v-card v-if="savedAuthIds && savedAuthIds.length > 0" class="ma-sm-13 ma-3 pa-3">
+      <v-card-title>Saved session</v-card-title>
+      <v-card
+        v-for="(id, index) in savedAuthIds"
+        :key="index"
+        class="ma-2"
+        light
+        elevation="2"
+        @click="restoreSpotifySession(id.authId)"
+      >
+        <v-card-actions>
+          {{ id.name }}
+          <v-spacer />
+          <v-btn
+            icon
+          >
+            <v-icon>mdi-chevron-right</v-icon>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
     </v-card>
   </v-main>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   layout: 'empty',
   data () {
     return {
-      stateList: {
-        WAIT_SOCKET: 'WAITING_SERVER',
-        WAIT_SPOTIFY: 'WAITING_SPOTIFY'
-      },
-      loading: false,
-      state: null,
+      loading: true,
       savedAuthIds: null
     }
   },
-  watch: {
-  },
-  created () {
-    this.state = this.stateList.WAIT_SPOTIFY
-  },
   mounted () {
-    this.$store.commit('spotify/initPizzly')
+    this.loading = false
     this.savedAuthIds = this.$store.state.spotify.savedAuthIds
   },
   methods: {
@@ -64,13 +57,15 @@ export default {
         })
         .catch(this.connectError)
     },
+    /*     annonymousConnection () {
+      this.$store.dispatch('spotify/annonymousLogin')
+    }, */
     restoreSpotifySession (authId) {
       this.$store.dispatch('spotify/restoreSession', { authId })
         .then((name) => {
           if (!name) {
-            // delete session
-            console.log('SESSION INVALID')
             this.$store.commit('spotify/deleteAuthId', { authId, name })
+            this.savedAuthIds = this.$store.state.spotify.savedAuthIds
           } else {
             this.$store.commit('spotify/setAuthId', { authId, name })
             this.$router.push('/playlist')

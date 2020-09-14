@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1>Searchbar</h1>
+    <h1 @click="$router.push('/searchTrack')">
+      Searchbar
+    </h1>
 
     <h2>Bouton menu</h2>
 

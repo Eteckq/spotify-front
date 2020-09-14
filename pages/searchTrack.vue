@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h2>Back button</h2>
+    <h2 @click="$router.push('/playlist')">
+      Back button
+    </h2>
 
     <h1>Input text (search)</h1>
 

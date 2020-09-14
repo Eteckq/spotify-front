@@ -7,7 +7,9 @@ export const state = () => ({
   authId: null
 })
 
-export const getters = {}
+export const getters = {
+  getSavedAuthIds: (state) => { return state.savedAuthIds }
+}
 
 export const actions = {
   login ({ commit, state }) {
@@ -32,6 +34,11 @@ export const actions = {
       .then(response => response.json())
       .then(data => data.display_name)
   },
+  /*   annonymousLogin ({ commit, state }) {
+    return state.pizzly
+      .connect()
+      .then(console.log)
+  }, */
   getMe ({ commit, state }) {
     return state.pizzly
       .auth(state.authId)
@@ -53,43 +60,48 @@ export const actions = {
 
 export const mutations = {
   initPizzly (state, data) {
-    const savedIds = localStorage.getItem('savedAuthIds')
-
-    if (savedIds !== null && savedIds !== '') {
-      state.savedAuthIds = JSON.parse(savedIds)
-      if (state.savedAuthIds === null) {
-        state.savedAuthIds = []
-      }
-    } else {
-      state.savedAuthIds = []
-    }
-
-    localStorage.setItem('savedAuthIds', JSON.stringify(state.savedAuthIds))
-    localStorage.removeItem('authId')
-
     state.pizzly = new Pizzly({ host: 'https://camaradio-auth.herokuapp.com' }).integration('spotify')
+
+    state.savedAuthIds = getSavedAuthIds()
+    clearAuthId()
   },
   setAuthId (state, { authId, name }) {
-    addIdInStorage({ authId, name }, state.savedAuthIds.map(id => id))
+    addAuthIdInStorage({ authId, name }, state.savedAuthIds.map(id => id))
+    setAuthId(authId)
     state.authId = authId
   },
   deleteAuthId (state, { authId, name }) {
-    state.savedAuthIds = state.savedAuthIds.filter(id => id.authId !== authId.authId)
-    setSavedAuthIds({ authId, name }, state.savedAuthIds.map(id => id))
+    state.savedAuthIds = state.savedAuthIds.filter(id => id.authId !== authId)
+    setSavedAuthIds(state.savedAuthIds.map(id => id))
   }
 }
 
-function addIdInStorage (authId, savedAuthIds) {
+function addAuthIdInStorage (authId, savedAuthIds) {
   if (!savedAuthIds.some(auth => auth.authId === authId.authId) && !savedAuthIds.some(auth => auth.name === authId.name)) {
     savedAuthIds.push(authId)
     localStorage.setItem('savedAuthIds', JSON.stringify(savedAuthIds))
   }
+}
 
-  localStorage.setItem('authId', authId.authId)
+function clearAuthId () {
+  localStorage.removeItem('authId')
+}
+
+function setAuthId (authId) {
+  localStorage.setItem('authId', authId)
 }
 
 function setSavedAuthIds (savedAuthIds) {
   localStorage.setItem('savedAuthIds', JSON.stringify(savedAuthIds))
+}
+
+function getSavedAuthIds () {
+  const savedIds = localStorage.getItem('savedAuthIds')
+  let result = []
+  if (savedIds !== null && savedIds !== '') {
+    result = JSON.parse(savedIds)
+  }
+  return result
 }
 
 // function test () {
