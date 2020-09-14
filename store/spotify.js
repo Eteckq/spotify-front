@@ -1,5 +1,5 @@
-import { resolve } from 'path'
 import querystring from 'querystring'
+import Pizzly from 'pizzly-js/dist/index.mjs'
 
 export const state = () => ({
   pizzly: null,
@@ -18,7 +18,7 @@ export const actions = {
           const authId = data.authId
           state.pizzly
             .auth(authId)
-            .get('me')
+            .get('/me')
             .then(response => response.json())
             .then((data) => { console.log(data); resolve({ authId, name: data.display_name }) })
             .catch(reject)
@@ -31,19 +31,14 @@ export const actions = {
       .get('/me')
       .then(response => response.json())
       .then(data => data.display_name)
-
-    // return state.pizzly
-    //   .auth(authId)
-    //   .connect()
   },
   getMe ({ commit, state }) {
     return state.pizzly
+      .auth(state.authId)
       .get('/me')
       .then(response => response.json())
+      .then(data => console.log(data))
   },
-  // this.$store.dispatch('spotify/getTracksFromSearch', { query: 'nf ' }).then((tracks) => {
-  //   console.log(tracks)
-  // })
   getTracksFromSearch ({ commit, state }, { query }) {
     return state.pizzly
       .auth(state.authId)
@@ -72,11 +67,15 @@ export const mutations = {
     localStorage.setItem('savedAuthIds', JSON.stringify(state.savedAuthIds))
     localStorage.removeItem('authId')
 
-    state.pizzly = data.pizzly
+    state.pizzly = new Pizzly({ host: 'https://camaradio-auth.herokuapp.com' }).integration('spotify')
   },
   setAuthId (state, { authId, name }) {
     addIdInStorage({ authId, name }, state.savedAuthIds.map(id => id))
     state.authId = authId
+  },
+  deleteAuthId (state, { authId, name }) {
+    state.savedAuthIds = state.savedAuthIds.filter(id => id.authId !== authId.authId)
+    setSavedAuthIds({ authId, name }, state.savedAuthIds.map(id => id))
   }
 }
 
@@ -87,6 +86,10 @@ function addIdInStorage (authId, savedAuthIds) {
   }
 
   localStorage.setItem('authId', authId.authId)
+}
+
+function setSavedAuthIds (savedAuthIds) {
+  localStorage.setItem('savedAuthIds', JSON.stringify(savedAuthIds))
 }
 
 // function test () {

@@ -15,8 +15,9 @@
 <script>
 export default {
   created () {
-    if (this.$store.state.spotify.authId === null) {
-      this.$router.push('/login')
+    const authId = localStorage.getItem('authId')
+    if (authId === null) {
+      this.$router.push('/')
     }
   }
 }

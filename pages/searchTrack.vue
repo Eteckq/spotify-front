@@ -10,6 +10,13 @@
 
 <script>
 export default {
-  layout: 'application'
+  layout: 'application',
+  methods: {
+    search (query) {
+      this.$store.dispatch('spotify/getTracksFromSearch', { query }).then((tracks) => {
+        console.log(tracks)
+      })
+    }
+  }
 }
 </script>
