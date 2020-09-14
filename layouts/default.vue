@@ -8,10 +8,12 @@
 
 <script>
 export default {
+  name: 'DefaultLayout',
   data () {
     return {
     }
   },
+
   beforeMount () {
     this.$store.commit('spotify/initPizzly')
   }

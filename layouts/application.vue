@@ -14,9 +14,9 @@
 
 <script>
 export default {
-  created () {
-    const authId = localStorage.getItem('authId')
-    if (authId === null) {
+  name: 'ApplicationLayout',
+  mounted () {
+    if (!this.$store.state.spotify.authId) {
       this.$router.push('/')
     }
   }

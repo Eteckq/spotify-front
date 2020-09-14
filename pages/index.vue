@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 
 export default {
+  name: 'IndexPage',
   layout: 'empty',
   data () {
     return {

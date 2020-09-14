@@ -12,6 +12,7 @@
 
 <script>
 export default {
+  name: 'SearchPage',
   layout: 'application',
   methods: {
     search (query) {

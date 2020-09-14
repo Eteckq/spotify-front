@@ -34,6 +34,9 @@ export const actions = {
       .then(response => response.json())
       .then(data => data.display_name)
   },
+  disconnect ({ commit, state }) {
+    clearAuthId()
+  },
   /*   annonymousLogin ({ commit, state }) {
     return state.pizzly
       .connect()
@@ -60,10 +63,12 @@ export const actions = {
 
 export const mutations = {
   initPizzly (state, data) {
+    if (getAuthId()) {
+      state.authId = getAuthId()
+    } else {
+      state.savedAuthIds = getSavedAuthIds()
+    }
     state.pizzly = new Pizzly({ host: 'https://camaradio-auth.herokuapp.com' }).integration('spotify')
-
-    state.savedAuthIds = getSavedAuthIds()
-    clearAuthId()
   },
   setAuthId (state, { authId, name }) {
     addAuthIdInStorage({ authId, name }, state.savedAuthIds.map(id => id))
@@ -85,6 +90,10 @@ function addAuthIdInStorage (authId, savedAuthIds) {
 
 function clearAuthId () {
   localStorage.removeItem('authId')
+}
+
+function getAuthId () {
+  localStorage.getItem('authId')
 }
 
 function setAuthId (authId) {

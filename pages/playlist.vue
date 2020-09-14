@@ -12,6 +12,7 @@
 
 <script>
 export default {
+  name: 'PlaylistPage',
   layout: 'application'
 }
 </script>
