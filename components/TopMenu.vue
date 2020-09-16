@@ -1,7 +1,7 @@
 <template>
   <div
     class="pa-2 topMenu"
-    :class="{ searchMode: $route.matched[0].path === '/:room/search' }"
+    :class="[{ searchMode: $route.matched[0].path === '/:room/search' },{parametersMode: $route.matched[0].path === '/:room/parameters'}]"
   >
     <div class="leftMenu">
       <v-icon class="backIcon" @click="$router.go(-1)">
@@ -87,6 +87,23 @@ export default {
 
     .rightMenu{
        transform: translateX(100px);
+    }
+  }
+
+  &.parametersMode {
+    .leftMenu {
+      .searchIcon {
+        transform: translateX(-100px);
+        opacity: 0;
+      }
+
+      .backIcon {
+        transform: translateX(0);
+      }
+    }
+
+    .rightMenu{
+       transform: translateX(50px);
     }
   }
 }
