@@ -3,7 +3,10 @@
 // The variables you want to modify
 // $font-size-root: 20px;
 
-$font-family: "Montserrat", sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto&display=swap');
+
+$font-montserrat: "Montserrat", sans-serif;
+$font-roboto: "Roboto", sans-serif;
 
 $black: #121212;
 $white: #f8f8f8;
@@ -11,3 +14,5 @@ $white: #f8f8f8;
 $grey01: #b3b3b3;
 $grey02: #5e5e5e;
 $grey03: #454447;
+
+$red01: rgb(165, 25, 25);

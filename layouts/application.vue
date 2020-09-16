@@ -1,24 +1,70 @@
 <template>
-  <v-app dark>
+  <v-app dark class="body">
     <v-main>
-      <v-container>
+      <div class="content">
         <nuxt />
-      </v-container>
+      </div>
     </v-main>
-
-    <v-footer>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+    <v-footer class="pa-0 footer">
+      <player />
     </v-footer>
   </v-app>
 </template>
 
 <script>
+
+import Player from '../components/Player'
+
 export default {
   name: 'ApplicationLayout',
+  components: {
+    Player
+  },
+  data () {
+    return {
+      socket: null
+    }
+  },
   mounted () {
     if (!this.$store.state.spotify.authId) {
       this.$router.push('/')
     }
+
+    if (!this.socket) {
+      this.socket = this.$nuxtSocket({})
+      console.log('INIT SOCKET IO')
+    }
+
+    if (!this.$store.state.socket.room) {
+      this.$store.commit('socket/setRoom', this.$route.params.room)
+    }
   }
 }
 </script>
+
+<style lang="scss">
+.body{
+overflow: hidden;
+  .content {
+    // position: absolute;
+    // top: 0;
+    // bottom: 0px;
+    // left: 0;
+    // right: 0;
+    height: 100%;
+    // overflow: scroll;
+    background: linear-gradient(180deg, #1D1D1D 8.85%, rgba(255, 255, 255, 0.034) 100%), #1D1D1D;
+  }
+
+  .footer{
+    // position: absolute;
+    // overflow: hidden;
+    // bottom: 0px;
+    // left: 0;
+    // right: 0;
+    // height: 68px;
+  }
+}
+// Sharly
+// friendio
+</style>

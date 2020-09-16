@@ -11,8 +11,8 @@
       <v-card
         v-for="(id, index) in savedAuthIds"
         :key="index"
+        :disabled="loading"
         class="ma-2"
-        light
         elevation="2"
         @click="restoreSpotifySession(id.authId)"
       >
@@ -52,12 +52,12 @@ export default {
       this.$store.dispatch('spotify/login')
         .then(({ authId, name }) => {
           this.$store.commit('spotify/setAuthId', { authId, name })
-
-          this.$router.push('/playlist')
+          this.$router.push('default')
         })
         .catch(this.connectError)
     },
     restoreSpotifySession (authId) {
+      this.loading = true
       this.$store.dispatch('spotify/restoreSession', { authId })
         .then((name) => {
           if (!name) {
@@ -65,7 +65,7 @@ export default {
             this.savedAuthIds = this.$store.state.spotify.savedAuthIds
           } else {
             this.$store.commit('spotify/setAuthId', { authId, name })
-            this.$router.push('/playlist')
+            this.$router.push('default/')
           }
         })
         .catch(this.connectError)

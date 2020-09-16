@@ -1,6 +1,8 @@
 import querystring from 'querystring'
 import Pizzly from 'pizzly-js/dist/index.mjs'
 
+import config from '../config/config'
+
 export const state = () => ({
   pizzly: null,
   savedAuthIds: null,
@@ -37,11 +39,6 @@ export const actions = {
   disconnect ({ commit, state }) {
     clearAuthId()
   },
-  /*   annonymousLogin ({ commit, state }) {
-    return state.pizzly
-      .connect()
-      .then(console.log)
-  }, */
   getMe ({ commit, state }) {
     return state.pizzly
       .auth(state.authId)
