@@ -1,16 +1,20 @@
 <template>
   <div>
     <div class="header">
-      <v-text-field
-        v-model="query"
-        light
-        class="searchBar"
-        hide-details
-        solo
-        dense
-        rounded
-        @keyup="search"
-      />
+      <transition name="fade">
+        <v-text-field
+          v-if="showBar"
+          v-model="query"
+          light
+          class="searchBar"
+          hide-details
+          solo
+          dense
+          rounded
+          append-icon="fa-search"
+          @keyup="search"
+        />
+      </transition>
     </div>
     <div class="tracks">
       <div v-for="(track, id) in tracks" :key="id">
@@ -51,7 +55,7 @@ import TrackSearch from '../../components/TrackSearch'
 
 export default {
   name: 'SearchPage',
-  layout: 'application',
+  layout: 'room',
   components: {
     TrackSearch
   },
@@ -59,8 +63,12 @@ export default {
     return {
       query: '',
       tab: null,
-      tracks: []
+      tracks: [],
+      showBar: false
     }
+  },
+  mounted () {
+    this.showBar = true
   },
   methods: {
     search () {
@@ -83,8 +91,17 @@ export default {
 .header {
 
   .searchBar{
-      width: 70%;
-      margin: auto;
+    position: absolute;
+    top: -35px;
+    left: 50px;
+    right: 50px;
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: all 0.4s;
+  }
+  .fade-enter, .fade-leave-to {
+    right: 250px;
   }
 
   .v-text-field.v-text-field--solo.v-input--dense > .v-input__control {
@@ -101,8 +118,8 @@ export default {
 }
 
 .tracks {
-overflow: scroll;
-position: absolute;
+  overflow: scroll;
+  position: absolute;
   top: 96px;
   left: 0;
   right: 0;

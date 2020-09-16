@@ -17,7 +17,7 @@ import TopMenu from '../components/TopMenu.vue'
 import Player from '../components/Player'
 
 export default {
-  name: 'ApplicationLayout',
+  name: 'RoomLayout',
   components: {
     Player,
     TopMenu
@@ -46,6 +46,7 @@ export default {
 
 <style lang="scss">
 .body{
+  position: relative;
 overflow: hidden;
   .bodyContent {
     // position: absolute;

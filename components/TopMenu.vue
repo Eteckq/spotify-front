@@ -1,11 +1,15 @@
 <template>
-  <div class="pa-2 d-flex justify-space-between topMenu">
-    <div>
-      <v-icon v-if="$route.matched[0].path !== '/:room/search'" @click="$router.push('search')">
-        fa-search
-      </v-icon>
-      <v-icon v-else @click="$router.go(-1)">
+  <div
+    class="pa-2 topMenu"
+    :class="{ searchMode: $route.matched[0].path === '/:room/search' }"
+  >
+    <div class="leftMenu">
+      <v-icon class="backIcon" @click="$router.go(-1)">
         fa-arrow-left
+      </v-icon>
+
+      <v-icon class="searchIcon" @click="$router.push('search')">
+        fa-search
       </v-icon>
     </div>
 
@@ -13,8 +17,8 @@
       Sharly
     </span>
 
-    <div class="text-right">
-      <v-icon>
+    <div class="rightMenu">
+      <v-icon @click="$router.push('parameters')">
         fa-bars
       </v-icon>
     </div>
@@ -22,28 +26,68 @@
 </template>
 
 <script>
-
 export default {
-  components: {
-
-  },
+  components: {},
   data () {
     return {
       // isSearchbarOpen: false
     }
   },
   created () {
-
+    console.log(this.$route)
   }
 }
 </script>
 
 <style lang="scss">
+.topMenu {
+  background-color: #1e1e1e;
+  text-align: center;
+  * {
+    transition: all 800ms;
+  }
 
-.topMenu{
-    background-color: #1E1E1E;
-  .appTitle{
+  .leftMenu {
+    float: left;
+    .searchIcon {
+      position: absolute;
+      transform: translateX(0);
+    }
+
+    .backIcon {
+      position: absolute;
+      transform: translateX(-100px);
+    }
+  }
+
+  .appTitle {
+
     font-size: 20px;
+  }
+
+  .rightMenu {
+    float: right;
+  }
+
+  &.searchMode {
+    .appTitle {
+        opacity: 0.6;
+    }
+
+    .leftMenu {
+      .searchIcon {
+        transform: translateX(200px);
+        opacity: 0;
+      }
+
+      .backIcon {
+        transform: translateX(0);
+      }
+    }
+
+    .rightMenu{
+       transform: translateX(100px);
+    }
   }
 }
 </style>

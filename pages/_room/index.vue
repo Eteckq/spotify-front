@@ -21,7 +21,7 @@ import QueueItem from '../../components/QueueItem.vue'
 
 export default {
   name: 'PlaylistPage',
-  layout: 'application',
+  layout: 'room',
   components: {
     QueueItem
   },
@@ -41,14 +41,16 @@ export default {
 <style lang="scss">
 .nextTrackText{
   padding: 10px;
-  font-size: 23px;
+  padding-left: 20px;
+  font-weight: bold;
+font-size: 24px;
 }
 
 .trackList{
 
   .track {
     padding: 10px;
-    border: 1px solid $grey03;
+    border-bottom: 1px solid $grey03;
   }
 
 }
