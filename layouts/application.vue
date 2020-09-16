@@ -1,7 +1,8 @@
 <template>
   <v-app dark class="body">
+    <top-menu />
     <v-main>
-      <div class="content">
+      <div class="bodyContent">
         <nuxt />
       </div>
     </v-main>
@@ -12,13 +13,14 @@
 </template>
 
 <script>
-
+import TopMenu from '../components/TopMenu.vue'
 import Player from '../components/Player'
 
 export default {
   name: 'ApplicationLayout',
   components: {
-    Player
+    Player,
+    TopMenu
   },
   data () {
     return {
@@ -45,7 +47,7 @@ export default {
 <style lang="scss">
 .body{
 overflow: hidden;
-  .content {
+  .bodyContent {
     // position: absolute;
     // top: 0;
     // bottom: 0px;

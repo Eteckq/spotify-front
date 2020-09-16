@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-2 d-flex justify-space-between">
+  <div class="pa-2 d-flex justify-space-between topMenu">
     <div>
       <v-icon @click="$router.push('search')">
         fa-search
@@ -7,7 +7,7 @@
     </div>
 
     <span class="appTitle">
-      Camaradio
+      Sharly
     </span>
 
     <div class="text-right">
@@ -33,13 +33,11 @@ export default {
 </script>
 
 <style lang="scss">
-.v-dialog {
-    background-color: $black;
-}
-.topMenu{
 
-.appTitle{
-  font-size: 20px;
-}
+.topMenu{
+    background-color: #1E1E1E;
+  .appTitle{
+    font-size: 20px;
+  }
 }
 </style>

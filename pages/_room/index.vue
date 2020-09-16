@@ -1,7 +1,5 @@
 <template>
   <div>
-    <top-menu />
-
     <span class="nextTrackText">
       <span v-if="tracks.length > 0">À venir...</span>
       <span v-else>Pas de musique en attente</span>
@@ -17,14 +15,14 @@
 </template>
 
 <script>
-import TopMenu from '../../components/TopMenu.vue'
+
 import TrackView from '../../components/TrackView.vue'
 
 export default {
   name: 'PlaylistPage',
   layout: 'application',
   components: {
-    TopMenu,
+
     TrackView
   },
   data () {
