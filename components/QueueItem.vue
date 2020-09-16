@@ -5,18 +5,18 @@
     </v-icon>
 
     <div class="name">
-      {{ track.name }}
+      {{ queueitem.name }}
     </div>
     <div class="dot" />
     <div class="author">
-      {{ track.artists[0].name }}
+      {{ queueitem.artists[0].name }}
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['track']
+  props: ['queueitem']
 }
 </script>
 

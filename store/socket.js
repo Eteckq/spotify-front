@@ -5,7 +5,9 @@ export const state = () => ({
 export const getters = {}
 
 export const actions = {
-
+  sendTrack ({ state, commit }, track) {
+    console.log(track)
+  }
 }
 
 export const mutations = {

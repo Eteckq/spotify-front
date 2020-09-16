@@ -51,10 +51,11 @@ export const actions = {
       .auth(state.authId)
       .get('/search?' + querystring.stringify({
         q: query,
-        type: 'track'
+        type: 'artist,track'
       }))
       .then(response => response.json())
       .then(data => data.tracks.items)
+      .catch(console.log)
   }
 }
 

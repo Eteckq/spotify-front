@@ -5,25 +5,25 @@
       <span v-else>Pas de musique en attente</span>
     </span>
 
+    <v-divider />
+
     <div class="trackList">
       <div v-for="(track, id) in tracks" :key="id" class="track">
-        <track-view :track="track" />
+        <queue-item :queueitem="track" />
       </div>
-      <hr class="separator">
     </div>
   </div>
 </template>
 
 <script>
 
-import TrackView from '../../components/TrackView.vue'
+import QueueItem from '../../components/QueueItem.vue'
 
 export default {
   name: 'PlaylistPage',
   layout: 'application',
   components: {
-
-    TrackView
+    QueueItem
   },
   data () {
     return {
@@ -49,11 +49,6 @@ export default {
   .track {
     padding: 10px;
     border: 1px solid $grey03;
-  }
-
-  .separator {
-    display: none;
-    // border: 1px solid $grey03;
   }
 
 }

@@ -21,7 +21,10 @@
 
 <script>
 export default {
-  props: ['track']
+  props: ['track'],
+  methods: {
+
+  }
 }
 </script>
 

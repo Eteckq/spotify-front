@@ -1,8 +1,11 @@
 <template>
   <div class="pa-2 d-flex justify-space-between topMenu">
     <div>
-      <v-icon @click="$router.push('search')">
+      <v-icon v-if="$route.matched[0].path !== '/:room/search'" @click="$router.push('search')">
         fa-search
+      </v-icon>
+      <v-icon v-else @click="$router.go(-1)">
+        fa-arrow-left
       </v-icon>
     </div>
 
@@ -28,6 +31,9 @@ export default {
     return {
       // isSearchbarOpen: false
     }
+  },
+  created () {
+
   }
 }
 </script>
