@@ -4,15 +4,15 @@
       <v-icon class="iconHate" @click="hateTrack">
         fa-angry
       </v-icon>
-      <div class="name">
+      <div class="name sliceText">
         {{ queueitem.track.name }}
       </div>
       <div class="dot" />
-      <div class="author">
+      <div class="author sliceText">
         {{ queueitem.track.artists[0].name }}
       </div>
     </div>
-    <div class="adder">
+    <div class="adder sliceText">
       + {{ queueitem.user.display_name }}
     </div>
   </div>
@@ -51,6 +51,7 @@ export default {
       font-size: 15px;
       font-weight: bold;
 
+      max-width: 45vw;
       text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
 
@@ -65,12 +66,14 @@ export default {
     .author {
       font-size: 11px;
       color: $grey02;
+      max-width: 20vw;
     }
   }
 
   .adder {
     font-size: 8px;
     color: $grey01;
+      max-width: 15vw;
   }
 }
 </style>

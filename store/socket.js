@@ -20,6 +20,7 @@ export const actions = {
     console.log(track)
   },
   sendCurrentQueueItem ({ state, commit }, { queueItem, position_ms }) {
+    commit('setTimeline', position_ms)
     commit('setCurrentQueueItem', queueItem)
     startTimeline(position_ms, queueItem.track.duration_ms, commit)
   }
@@ -58,7 +59,7 @@ function startTimeline (positionMs, durationMs, commit) {
     if (timeline > durationMs) {
       clearInterval(timelineInterval)
     }
-    const timeline_ms = (timeline / durationMs) * 100
-    commit('setTimeline', timeline_ms)
+
+    commit('setTimeline', timeline)
   }, 300)
 }

@@ -10,10 +10,10 @@
     />
     <div class="infos">
       <div class="name">
-        {{ track.name }}
+        {{ track.name | slice(25) }}
       </div>
       <div class="author">
-        {{ track.artists[0].name }}
+        {{ track.artists[0].name | slice(20) }}
       </div>
     </div>
   </div>

@@ -23,12 +23,13 @@ export default {
     Player,
     TopMenu
   },
-  data () {
-    return {
-      // socket: null
-    }
-  },
   mounted () {
+    // Test si:
+    // User à un authId en local storage (pour récupérer sa session après un reload par exemple)
+    // User est bien connecté à spotify
+    // Un socket est relié au serveur
+    //
+
     // console.log('Wait..')
     if (!this.$store.getters['spotify/getStoredAuthId']) {
       this.$router.push('/')
@@ -57,7 +58,6 @@ export default {
       Vue.prototype.$socket = this.$nuxtSocket({})
 
       this.$store.dispatch('spotify/getMe').then((user) => {
-        console.log(user)
         this.$socket.emit('hello', { user })
         this.joinRoom()
       })
@@ -73,9 +73,9 @@ export default {
 </script>
 
 <style lang="scss">
-.body{
+.body {
   position: relative;
-overflow: hidden;
+  overflow: hidden;
   .bodyContent {
     // position: absolute;
     // top: 0;
@@ -84,10 +84,15 @@ overflow: hidden;
     // right: 0;
     height: 100%;
     // overflow: scroll;
-    background: linear-gradient(180deg, #1D1D1D 8.85%, rgba(255, 255, 255, 0.034) 100%), #1D1D1D;
+    background: linear-gradient(
+        180deg,
+        #1d1d1d 8.85%,
+        rgba(255, 255, 255, 0.034) 100%
+      ),
+      #1d1d1d;
   }
 
-  .footer{
+  .footer {
     // position: absolute;
     // overflow: hidden;
     // bottom: 0px;
@@ -96,6 +101,10 @@ overflow: hidden;
     // height: 68px;
   }
 }
-// Sharly
-// friendio
+
+.sliceText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>

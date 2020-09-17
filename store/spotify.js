@@ -56,6 +56,19 @@ export const actions = {
       .then(response => response.json())
       .then(data => data.tracks.items)
       .catch(console.log)
+  },
+  changeTrack ({ commit, state }, { trackUri, position_ms }) {
+    const data = {
+      uris: [trackUri],
+      position_ms
+    }
+
+    return state.pizzly
+      .auth(state.authId)
+      .put('/me/player/play', { body: JSON.stringify(data) })
+      .then(response => response.json())
+      .then(console.log)
+      .catch(console.log)
   }
 }
 
