@@ -3,7 +3,7 @@ export default {
   vuex: {
     mutations: [{
       updateTrackList: 'socket/setQueueItems'
-    }
+    }, { updateConnectedUsersList: 'socket/setConnectedUsers' }
     ],
     actions: [
       { currentTrackChange: 'socket/sendCurrentQueueItem' }

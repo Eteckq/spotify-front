@@ -19,10 +19,10 @@
           <span class="author">{{ queueItem.track.artists[0].name }}</span>
         </div>
 
-        <span class="adder">by Yoyo</span>
+        <span class="adder">by {{ queueItem.user.display_name }}</span>
       </div>
 
-      <v-icon class="iconHate">
+      <v-icon class="iconHate" @click="voteSkip">
         fa-angry
       </v-icon>
     </div>
@@ -37,6 +37,11 @@ export default {
     },
     timeline () {
       return this.$store.getters['socket/getTimeline']
+    }
+  },
+  methods: {
+    voteSkip () {
+      this.$socket.emit('voteSkipTrack')
     }
   }
 }

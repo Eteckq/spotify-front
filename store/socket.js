@@ -1,5 +1,6 @@
 export const state = () => ({
   room: null,
+  users: [],
   queueItems: [],
   currentQueueItem: null,
   position_ms: 0
@@ -7,6 +8,7 @@ export const state = () => ({
 
 export const getters = {
   getQueueItems: (state) => { return state.queueItems },
+  getUsers: (state) => { return state.users },
   getCurrentQueueItem: (state) => { return state.currentQueueItem },
   getTimeline: (state) => {
     return state.position_ms
@@ -35,6 +37,11 @@ export const mutations = {
   },
   setTimeline (state, timeline) {
     state.position_ms = timeline
+  },
+  setConnectedUsers (state, users) {
+    console.log('OK')
+    console.log(users)
+    state.users = users
   }
 }
 
