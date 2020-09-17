@@ -40,7 +40,7 @@ export const mutations = {
 
 let timelineInterval = null
 
-function startTimeline (positionMs, durationMs) {
+function startTimeline (positionMs, durationMs, commit) {
   clearInterval(timelineInterval)
 
   const started = Date.now()
@@ -53,5 +53,5 @@ function startTimeline (positionMs, durationMs) {
     }
     const timeline_ms = (timeline / durationMs) * 100
     commit('setTimeline', timeline_ms)
-  }, 1550)
+  }, 300)
 }

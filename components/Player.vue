@@ -8,7 +8,6 @@
       :value="timeline"
       opacity="0.5"
     />
-    {{ timeline }}
 
     <div v-if="queueItem" class="content d-flex justify-space-between">
       <v-img height="64" width="64" max-height="64" max-width="64" :src="queueItem.track.album.images[2].url" />
