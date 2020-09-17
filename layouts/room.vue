@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import TopMenu from '../components/TopMenu.vue'
 import Player from '../components/Player'
 
@@ -24,21 +25,48 @@ export default {
   },
   data () {
     return {
-      socket: null
+      // socket: null
     }
   },
   mounted () {
-    if (!this.$store.state.spotify.authId) {
+    // console.log('Wait..')
+    if (!this.$store.getters['spotify/getStoredAuthId']) {
       this.$router.push('/')
+      return
     }
 
-    if (!this.socket) {
-      this.socket = this.$nuxtSocket({})
-      console.log('INIT SOCKET IO')
+    if (!this.$store.state.spotify.pizzly) {
+      this.$store.commit('spotify/initPizzly')
     }
 
-    if (!this.$store.state.socket.room) {
+    if (!this.$socket) {
+      this.initSocketAndJoinRoom()
+    } else {
+      if (!this.$store.state.socket.room) {
+        this.joinRoom()
+      }
+
+      if (this.$store.state.socket.room !== this.$route.params.room) {
+        console.log('Room changed')
+        this.joinRoom()
+      }
+    }
+  },
+  methods: {
+    initSocketAndJoinRoom () {
+      Vue.prototype.$socket = this.$nuxtSocket({})
+
+      this.$store.dispatch('spotify/getMe').then((user) => {
+        console.log(user)
+        this.$socket.emit('hello', { user })
+        this.joinRoom()
+      })
+    },
+    joinRoom () {
       this.$store.commit('socket/setRoom', this.$route.params.room)
+      this.$socket.emit('joinRoom', { roomId: this.$route.params.room })
+
+      // console.log('DONE')
     }
   }
 }

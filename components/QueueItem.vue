@@ -5,11 +5,11 @@
     </v-icon>
 
     <div class="name">
-      {{ queueitem.name }}
+      {{ queueitem.track.name }}
     </div>
     <div class="dot" />
     <div class="author">
-      {{ queueitem.artists[0].name }}
+      {{ queueitem.track.artists[0].name }}
     </div>
   </div>
 </template>

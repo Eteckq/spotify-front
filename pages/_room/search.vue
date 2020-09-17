@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <transition name="fade">
+      <transition name="open">
         <v-text-field
           v-if="showBar"
           v-model="query"
@@ -80,7 +80,7 @@ export default {
       })
     },
     selectTrack (id) {
-      this.$store.dispatch('socket/sendTrack', this.tracks.splice(id, 1))
+      this.$socket.emit('addTrack', { track: this.tracks.splice(id, 1)[0] })
     }
   }
 }
@@ -92,15 +92,15 @@ export default {
 
   .searchBar{
     position: absolute;
-    top: -35px;
+    top: -40px;
     left: 50px;
     right: 50px;
   }
 
-  .fade-enter-active, .fade-leave-active {
+  .open-enter-active, .open-leave-active {
     transition: all 0.4s;
   }
-  .fade-enter, .fade-leave-to {
+  .open-enter, .open-leave-to {
     right: 250px;
   }
 
@@ -120,7 +120,7 @@ export default {
 .tracks {
   overflow: scroll;
   position: absolute;
-  top: 96px;
+  top: 0px;
   left: 0;
   right: 0;
   bottom: 0;

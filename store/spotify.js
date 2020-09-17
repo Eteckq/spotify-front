@@ -10,7 +10,7 @@ export const state = () => ({
 })
 
 export const getters = {
-  getSavedAuthIds: (state) => { return state.savedAuthIds }
+  getStoredAuthId: (state) => { return getAuthId() }
 }
 
 export const actions = {
@@ -44,7 +44,7 @@ export const actions = {
       .auth(state.authId)
       .get('/me')
       .then(response => response.json())
-      .then(data => console.log(data))
+      .then(data => data)
   },
   getTracksFromSearch ({ commit, state }, { query }) {
     return state.pizzly
@@ -63,9 +63,9 @@ export const mutations = {
   initPizzly (state, data) {
     if (getAuthId()) {
       state.authId = getAuthId()
-    } else {
-      state.savedAuthIds = getSavedAuthIds()
     }
+    state.savedAuthIds = getSavedAuthIds()
+
     state.pizzly = new Pizzly({ host: 'https://camaradio-auth.herokuapp.com' }).integration('spotify')
   },
   setAuthId (state, { authId, name }) {
@@ -91,7 +91,7 @@ function clearAuthId () {
 }
 
 function getAuthId () {
-  localStorage.getItem('authId')
+  return localStorage.getItem('authId')
 }
 
 function setAuthId (authId) {

@@ -5,18 +5,19 @@
       height="4px"
       color="white"
       top
-      :value="50"
+      :value="timeline"
       opacity="0.5"
     />
+    {{ timeline }}
 
-    <div class="content d-flex justify-space-between">
-      <v-img height="64" width="64" max-height="64" max-width="64" src="https://i.scdn.co/image/ab67616d000048518863bc11d2aa12b54f5aeb36" />
+    <div v-if="queueItem" class="content d-flex justify-space-between">
+      <v-img height="64" width="64" max-height="64" max-width="64" :src="queueItem.track.album.images[2].url" />
 
       <div class="d-flex flex-column align-center justify-space-between pt-2">
         <div class="titleInfos d-flex flex-inline align-center">
-          <span class="title">Là-Haut</span>
+          <span class="title">{{ queueItem.track.name }} </span>
           <span class="dot" />
-          <span class="author">Hugo TSR</span>
+          <span class="author">{{ queueItem.track.artists[0].name }}</span>
         </div>
 
         <span class="adder">by Yoyo</span>
@@ -31,9 +32,12 @@
 
 <script>
 export default {
-  data () {
-    return {
-
+  computed: {
+    queueItem () {
+      return this.$store.getters['socket/getCurrentQueueItem']
+    },
+    timeline () {
+      return this.$store.getters['socket/getTimeline']
     }
   }
 }
