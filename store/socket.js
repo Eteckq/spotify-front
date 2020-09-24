@@ -40,8 +40,6 @@ export const mutations = {
     state.position_ms = timeline
   },
   setConnectedUsers (state, users) {
-    console.log('OK')
-    console.log(users)
     state.users = users
   }
 }

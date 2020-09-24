@@ -1,9 +1,12 @@
 <template>
   <div class="trackView">
     <div class="leftInfos">
-      <v-icon class="iconHate" @click="hateTrack">
-        fa-angry
-      </v-icon>
+      <div class="haters">
+        <v-icon class="iconHate" @click="hateTrack">
+          fa-angry
+        </v-icon>
+        <span v-if="queueitem.haters.length > 0" class="hatesCount">{{ queueitem.haters.length }}</span>
+      </div>
       <div class="name sliceText">
         {{ queueitem.track.name }}
       </div>
@@ -42,8 +45,22 @@ export default {
     align-items: center;
     justify-content: flex-start;
 
-    .iconHate {
-      padding-left: 5px;
+    .haters {
+      position: relative;
+      .iconHate {
+        padding-left: 5px;
+      }
+
+      .hatesCount{
+        background-color: rgb(158, 0, 0);
+        min-width: 10px;
+        font-size: 7px;
+        text-align: center;
+        border-radius: 100%;
+        position: absolute;
+        bottom: -3px;
+        right: -2px;
+      }
     }
 
     .name {

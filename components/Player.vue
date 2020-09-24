@@ -26,6 +26,7 @@
         fa-angry
       </v-icon>
     </div>
+    <script src="https://sdk.scdn.co/spotify-player.js" />
   </div>
 </template>
 
@@ -43,6 +44,16 @@ export default {
     queueItem () {
       this.changeTrack()
     }
+  },
+  created () {
+    // eslint-disable-next-line no-undef
+    /* new Spotify.Player({
+      name: 'Sharly',
+      getOAuthToken: (callback) => {
+        callback('access token here')
+      },
+      volume: 0.5
+    }) */
   },
   methods: {
     voteSkip () {
