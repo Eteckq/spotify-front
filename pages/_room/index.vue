@@ -41,11 +41,12 @@ export default {
   padding: 10px;
   padding-left: 20px;
   font-weight: bold;
-font-size: 24px;
+  font-size: 24px;
 }
 
 .trackList{
-overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   position: absolute;
   top: 36px;
   left: 0;

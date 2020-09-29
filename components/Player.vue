@@ -22,11 +22,14 @@
         <span class="adder">by {{ queueItem.user.display_name }}</span>
       </div>
 
-      <v-icon class="iconHate" @click="voteSkip">
-        fa-angry
-      </v-icon>
+      <div class="haters">
+        <v-icon class="iconHate" @click="voteSkip">
+          fa-angry
+        </v-icon>
+        <span v-if="queueItem.haters.length >= 0" class="hatesCount">{{ queueItem.haters.length }}</span>
+      </div>
     </div>
-    <script src="https://sdk.scdn.co/spotify-player.js" />
+    <!-- <script src="https://sdk.scdn.co/spotify-player.js" /> -->
   </div>
 </template>
 
@@ -100,9 +103,25 @@ export default {
         color: $grey01;
     }
 
-    .iconHate{
-      font-size: 35px;
-      padding-right: 8px;
+    .haters {
+      position: relative;
+      text-align: center;
+      margin: auto 10px auto 0;
+      .iconHate {
+        padding-left: 5px;
+        font-size: 35px;
+      }
+
+      .hatesCount{
+        background-color: rgb(158, 0, 0);
+        min-width: 10px;
+        font-size: 9px;
+        text-align: center;
+        border-radius: 100%;
+        position: absolute;
+        bottom: -3px;
+        right: -2px;
+      }
     }
   }
 

@@ -62,7 +62,18 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     'nuxt-socket-io',
-    i18n
+    i18n,
+    ['nuxt-twa-module', {
+      /* module options */
+      defaultUrl: 'https://camaradio.herokuapp.com/',
+      hostName: 'camaradio.herokuapp.com',
+      applicationId: 'fr.dev.yohan',
+      launcherName: 'Sharly',
+      versionCode: 1,
+      sha256Fingerprints: ['/* your SHA-256 keys */'],
+      iconPath: '/static/icon.png',
+      distFolder: '.nuxt/dist/client'
+    }]
 
   ],
   io: {

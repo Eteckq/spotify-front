@@ -12,7 +12,6 @@
           dense
           rounded
           append-icon="fa-search"
-          @keyup="search"
         />
       </transition>
     </div>
@@ -61,10 +60,25 @@ export default {
   },
   data () {
     return {
-      query: '',
       tab: null,
       tracks: [],
-      showBar: false
+      showBar: false,
+      debouncedQuery: '',
+      timeout: 0
+    }
+  },
+  computed: {
+    query: {
+      get () {
+        return this.debouncedQuery
+      },
+      set (val) {
+        if (this.timeout) { clearTimeout(this.timeout) }
+        this.timeout = setTimeout(() => {
+          this.debouncedQuery = val
+          this.search()
+        }, 300)
+      }
     }
   },
   mounted () {
@@ -72,10 +86,10 @@ export default {
   },
   methods: {
     search () {
-      if (this.query === '') {
+      if (this.debouncedQuery === '') {
         return
       }
-      this.$store.dispatch('spotify/getTracksFromSearch', { query: this.query }).then((tracks) => {
+      this.$store.dispatch('spotify/getTracksFromSearch', { query: this.debouncedQuery }).then((tracks) => {
         this.tracks = tracks
       })
     },

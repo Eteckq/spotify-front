@@ -1,5 +1,6 @@
 export default {
-  url: 'https://camaradio-back.herokuapp.com/',
+  // url: 'https://camaradio-back.herokuapp.com/',
+  url: 'localhost:3001',
   vuex: {
     mutations: [{
       updateTrackList: 'socket/setQueueItems'

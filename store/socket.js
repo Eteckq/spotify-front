@@ -31,9 +31,11 @@ export const mutations = {
     state.room = room
   },
   setQueueItems (state, { queueItems }) {
+    console.log(queueItems)
     state.queueItems = queueItems
   },
   setCurrentQueueItem (state, queueItem) {
+    console.log(queueItem)
     state.currentQueueItem = queueItem
   },
   setTimeline (state, timeline) {
