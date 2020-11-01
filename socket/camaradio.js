@@ -1,14 +1,13 @@
 export default {
-  // url: 'https://camaradio-back.herokuapp.com/',
-  url: 'localhost:3001',
+  url: "https://camaradio-back.herokuapp.com/",
   vuex: {
-    mutations: [{
-      updateTrackList: 'socket/setQueueItems'
-    }, { updateConnectedUsersList: 'socket/setConnectedUsers' }
+    mutations: [
+      {
+        updateTrackList: "socket/setQueueItems",
+      },
+      { updateConnectedUsersList: "socket/setConnectedUsers" },
     ],
-    actions: [
-      { currentTrackChange: 'socket/sendCurrentQueueItem' }
-    ]
+    actions: [{ currentTrackChange: "socket/sendCurrentQueueItem" }],
 
     // emitBacks: [
     //   {
@@ -17,5 +16,5 @@ export default {
     //     'socket/sample2': 'sample2'
     //   }
     // ]
-  }
-}
+  },
+};
